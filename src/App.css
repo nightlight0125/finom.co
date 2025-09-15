@@ -1,0 +1,89 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'EuclidCircularB', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F0EFF5; /* 浅紫色背景 */
+}
+
+/* 导航栏样式 - 与主题融为一体 */
+.ant-layout-header {
+  background: #F0EFF5 !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+}
+
+/* 菜单项样式 - 确保所有菜单项位置一致 */
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}
+
+.ant-menu-horizontal .ant-menu-item {
+  border-bottom: none !important;
+  margin: 0 8px !important;
+  position: relative;
+  height: 44px !important; 
+  line-height: 44px !important; 
+  padding: 0 16px !important; 
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ant-menu-horizontal .ant-menu-item::after {
+  display: none !important;
+}
+
+.ant-menu-horizontal .ant-menu-item-selected {
+  border-bottom: none !important;
+  background-color: transparent !important; /* 保持透明背景 */
+}
+
+.ant-menu-horizontal .ant-menu-item-selected::after {
+  display: none !important;
+}
+
+.ant-menu-horizontal .ant-menu-item:hover {
+  border-bottom: none !important;
+  background-color: transparent !important; /* 保持透明背景 */
+}
+
+.ant-menu-horizontal .ant-menu-item:hover::after {
+  display: none !important;
+}
+
+.ant-tabs-nav {
+  font-size: 28px !important;
+}
+/* 去掉 Tabs 底部基础下划线 */
+.ant-tabs-nav::before {
+  border-bottom: none !important;
+}
+/* 保留选中项的红色下划线（ink bar） */
+.ant-tabs-ink-bar {
+  display: block !important;
+  height: 4px !important;
+  background: #FF4C5C !important;
+  border-radius: 2px !important;
+}
+/* 未选中态颜色 */
+.ant-tabs-tab .ant-tabs-tab-btn {
+  color: #666666 !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+}
+/* 选中态颜色（使用主题浅紫色） */
+.ant-tabs-tab-active .ant-tabs-tab-btn,
+.ant-tabs-tab:hover .ant-tabs-tab-btn:where(.ant-tabs-tab-active) {
+  color: #02000A !important;
+}
+/* 移除选中态的下边框 */
+.ant-tabs-tab-active {
+  border-bottom: none !important;
+}
+

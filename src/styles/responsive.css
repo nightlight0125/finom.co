@@ -1,0 +1,207 @@
+/* 响应式设计 - 基于 1440px 设计稿 */
+
+/* 基础响应式变量 */
+:root {
+  --design-width: 1440px;
+  --left-column-width: 520px;
+  --right-column-width: 835px;
+  --notification-height: 372px;
+}
+
+/* 响应式布局容器 */
+.dashboard-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+.dashboard-layout {
+  display: flex;
+  gap: 24px;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+/* 左列 - 侧边栏 */
+.left-column {
+  width: calc(520px * 100vw / 1440px);
+  min-width: 300px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 右列 - 主要内容 */
+.right-column {
+  width: calc(835px * 100vw / 1440px);
+  min-width: 400px;
+  max-width: 835px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 通知卡片响应式 */
+.notification-card {
+  width: calc(835px * 100vw / 1440px);
+  height: calc(372px * 100vw / 1440px);
+  min-height: 300px;
+  max-height: 372px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  transform: rotate(0deg);
+  padding: 24px;
+  position: relative;
+}
+
+/* 响应式字体大小 */
+.responsive-title {
+  font-size: calc(18px * 100vw / 1440px);
+  min-font-size: 16px;
+  max-font-size: 18px;
+}
+
+.responsive-text {
+  font-size: calc(14px * 100vw / 1440px);
+  width: 510px;
+  height: 189px;
+  min-font-size: 12px;
+  max-font-size: 14px;
+}
+
+.responsive-icon {
+  width: calc(154px * 100vw / 1440px);
+  height: calc(144px * 100vw / 1440px);
+}
+
+.responsive-button {
+  height: calc(40px * 100vw / 1440px);
+  min-height: 36px;
+  max-height: 40px;
+  font-size: calc(16px * 100vw / 1440px);
+  min-font-size: 14px;
+  max-font-size: 16px;
+}
+
+.responsive-icon {
+  font-size: calc(48px * 100vw / 1440px);
+  min-font-size: 32px;
+  max-font-size: 48px;
+}
+
+/* 平板设备 (768px - 1024px) */
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .left-column,
+  .right-column {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .notification-card {
+    height: auto;
+    min-height: 250px;
+  }
+}
+
+/* 手机设备 (最大 768px) */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0 16px;
+  }
+  
+  .dashboard-layout {
+    gap: 12px;
+  }
+  
+  .left-column,
+  .right-column {
+    min-width: auto;
+  }
+  
+  .notification-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .responsive-title {
+    font-size: 16px;
+  }
+  
+  /* .responsive-text {
+    font-size: 12px;
+  } */
+  
+  .responsive-button {
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .responsive-icon {
+    font-size: 32px;
+  }
+}
+
+/* 小屏手机 (最大 480px) */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0 12px;
+  }
+  
+  .notification-card {
+    padding: 12px;
+  }
+  
+  .responsive-title {
+    font-size: 14px;
+  }
+  
+  /* .responsive-text {
+    font-size: 11px;
+  } */
+  
+  .responsive-button {
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .responsive-icon {
+    font-size: 28px;
+  }
+}
+
+/* 大屏设备 (大于 1440px) */
+@media (min-width: 1440px) {
+  .left-column {
+    width: 520px;
+  }
+  
+  .right-column {
+    width: 835px;
+  }
+  
+  .notification-card {
+    height: 372px;
+  }
+  
+  .responsive-title {
+    font-size: 18px;
+  }
+  
+  
+  .responsive-button {
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .responsive-icon {
+    font-size: 48px;
+  }
+}
