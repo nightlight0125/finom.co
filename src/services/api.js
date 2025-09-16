@@ -52,20 +52,6 @@ class ApiService {
     }
   }
 
-  // 上传文件
-  static async upload(url, formData, onProgress) {
-    try {
-      const response = await axios.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        onUploadProgress: onProgress,
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
 }
 
 export default ApiService;

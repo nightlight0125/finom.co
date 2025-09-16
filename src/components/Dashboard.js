@@ -5,10 +5,12 @@ import BoostWidget from './BoostWidget';
 import CardsWidget from './CardsWidget';
 import CustomizeActions from './CustomizeActions';
 import MainWalletDetails from './MainWalletDetails';
+import TransactionManager from './TransactionManager';
 import TransactionsWidget from './TransactionsWidget';
 
 const Dashboard = () => {
   const [selectedWallet, setSelectedWallet] = useState(null);
+  const [showTransactionManager, setShowTransactionManager] = useState(false);
 
   const handleWalletClick = (wallet) => {
     if (wallet.id === 'main') {
@@ -90,7 +92,8 @@ const Dashboard = () => {
           cursor: 'pointer',
           zIndex: 1000
         }}
-        title="Chat Support"
+        title="Transaction Manager"
+        onClick={() => setShowTransactionManager(true)}
       >
         <img
           src={require('../assets/images/Group 1321319738.png')}
@@ -102,6 +105,12 @@ const Dashboard = () => {
           }}
         />
       </div>
+
+      {/* Transaction Manager Modal */}
+      <TransactionManager
+        visible={showTransactionManager}
+        onClose={() => setShowTransactionManager(false)}
+      />
     </div>
   );
 };

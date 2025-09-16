@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 创建 axios 实例
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || 'https://jsonplaceholder.typicode.com',
+  baseURL: 'https://admin.flysimshop.com/admin-api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -13,13 +13,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     console.log('发送请求:', config);
-
-    // 添加 token
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
     return config;
   },
   (error) => {

@@ -1,6 +1,8 @@
 import { ArrowLeftOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Input, Space, Tabs, Typography } from 'antd';
-import React, { useState } from 'react';
+import { Button, Card, Input, Space, Tabs, Typography, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
+import ApiService from '../services/api';
 import ReconciliationChart from './ReconciliationChart';
 import WalletActionButtons from './WalletActionButtons';
 
@@ -10,10 +12,11 @@ const { Text, Title } = Typography;
 const MainWalletDetails = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState('details');
   const [showReconciliationPopup, setShowReconciliationPopup] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [wallet, setWallet] = useState(null);
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
-    // 可以添加成功提示
   };
 
   const handleDownloadRIB = () => {
@@ -31,49 +34,28 @@ const MainWalletDetails = ({ onBack }) => {
   const handleStatementData = () => {
   };
 
-  // 模拟交易数据
-  const transactions = [
-    {
-      id: 1,
-      name: 'MORENO MORENO CELESTE',
-      amount: -15025.00,
-      date: '8 juil.',
-      status: 'completed',
-      currency: '€'
-    },
-    {
-      id: 2,
-      name: 'MORENO MORENO CELESTE',
-      amount: -10721.00,
-      date: '7 juil.',
-      status: 'rejected',
-      currency: '€'
-    },
-    {
-      id: 3,
-      name: 'Andreas Peters',
-      amount: 3003.00,
-      date: '7 juil.',
-      status: 'completed',
-      currency: '€'
-    },
-    {
-      id: 4,
-      name: 'Steffen Porath',
-      amount: 3003.00,
-      date: '7 juil.',
-      status: 'completed',
-      currency: '€'
-    },
-    {
-      id: 5,
-      name: 'Torsten Mueller',
-      amount: 1004.00,
-      date: '7 juil.',
-      status: 'completed',
-      currency: '€'
+  const getTransactions = async () => {
+    const { code, data, msg } = await ApiService.get('/system/demo-bill/list');
+    if (code === 0) {
+      setTransactions(data.details);
+      setWallet(data.summary);
+    } else {
+      message.error("Network error");
     }
-  ];
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
+  // 监听全局的交易更新事件，触发刷新
+  useEffect(() => {
+    const handleUpdated = () => {
+      getTransactions();
+    };
+    window.addEventListener('transactions:updated', handleUpdated);
+    return () => window.removeEventListener('transactions:updated', handleUpdated);
+  }, []);
 
   const renderDetailsTab = () => (
     <div style={{ padding: '16px 0' }}>
@@ -470,8 +452,16 @@ const MainWalletDetails = ({ onBack }) => {
           color: '#000000'
         }}>
           <span style={{ fontWeight: '600', color: '#6C6A75', fontSize: '16px' }}>Ce mois-ci</span>
-          <span style={{ color: '#9896A2', fontSize: '16px' }}>15 025.00 €</span>
-          <span style={{ color: '#9896A2', fontSize: '16px' }}>15 025,00 €</span>
+          <span style={{ color: '#9896A2', fontSize: '16px' }}>
+            {wallet && typeof wallet.income !== 'undefined'
+              ? (Number(wallet.income) / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+              : (0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+          </span>
+          <span style={{ color: '#9896A2', fontSize: '16px' }}>
+            {wallet && typeof wallet.expense !== 'undefined'
+              ? (Number(wallet.expense) / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+              : (0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+          </span>
         </div>
       </div>
 
@@ -483,7 +473,7 @@ const MainWalletDetails = ({ onBack }) => {
             style={{
               display: 'flex',
               alignItems: 'flex-start',
-              padding: '16px 0',
+              padding: '10px 0',
             }}
           >
             {/* 左侧图标 - 与姓名中间对齐 */}
@@ -492,25 +482,24 @@ const MainWalletDetails = ({ onBack }) => {
                 width: '40px',
                 height: '40px',
                 backgroundColor: '#EFEFF4',
-                borderRadius: '12px',
+                borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
                 flexShrink: 0,
-                marginRight: '12px',
-                marginTop: '2px', // 微调位置，让图标与姓名文字中间对齐
+                marginRight: '8px',
               }}
             >
               {transaction.amount > 0 ? (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="40" height="40" rx="11" fill="#EFEFF4" />
-                  <path d="M24 17L16 25M16 25V17M16 25H24" stroke="#2A2424" stroke-width="1.5" />
+                  <path d="M24 17L16 25M16 25V17M16 25H24" stroke="#2A2424" stroke-width="1.2" />
                 </svg>
               ) : (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="40" height="40" rx="11" fill="#EFEFF4" />
-                  <path d="M16 25L24 17M24 17V25M24 17H16" stroke="#2A2424" stroke-width="1.5" />
+                  <path d="M16 25L24 17M24 17V25M24 17H16" stroke="#2A2424" stroke-width="1.2" />
                 </svg>
 
               )}
@@ -546,13 +535,11 @@ const MainWalletDetails = ({ onBack }) => {
               }}
             >
               {/* 中间信息 */}
-              <div style={{ flex: 1, marginRight: '12px' }}>
+              <div style={{ flex: 1 }}>
                 <div style={{
                   fontSize: '16px',
                   fontWeight: '600',
                   color: '#6C6A75',
-                  marginBottom: '2px',
-                  lineHeight: '100%'
                 }}>
                   {transaction.name}
                 </div>
@@ -561,30 +548,32 @@ const MainWalletDetails = ({ onBack }) => {
               {/* 右侧金额 */}
               <div style={{ textAlign: 'right' }}>
                 <div style={{
-                  fontSize: '16px',
+                  fontSize: '15px',
                   fontWeight: '600',
-                  lineHeight: '1.2', // 增加行高
-                  color: transaction.amount > 0 ? '#4F4F6B' : '#0B9155',
-                  marginBottom: '4px', // 增加与状态的间距
+                  lineHeight: '1.5',
+                  color: +transaction.amount > 0 ? '#0B9155' : '#4F4F6B',
+                  textDecoration: transaction.status === 'rejected' ? 'line-through' : 'none',
+                  textDecorationColor: transaction.status === 'rejected' ? '#6C6A75' : '#8E8EA0',
+                  marginBottom: '2px',
                 }}>
-                  {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString('fr-FR', {
+                  {+transaction.amount > 0 ? '+' : ''}{(Number(transaction.amount) / 100).toLocaleString('fr-FR', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })} {transaction.currency}
                 </div>
                 <div style={{
-                  fontSize: '12px',
+                  fontSize: '11px',
                   color: transaction.status === 'rejected' ? '#FF4C5C' : '#8E8EA0',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-end',
-                  gap: '6px',
+                  gap: '8px',
                 }}>
                   {transaction.status === 'rejected' && (
                     <span>Refusé</span>
                   )}
                   {transaction.status !== 'rejected' && (
-                    <span>{transaction.date}</span>
+                    <span>{dayjs(transaction.date).format('DD MMM')}</span>
                   )}
                 </div>
               </div>
