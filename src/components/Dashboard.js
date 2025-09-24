@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AccountClosureNotification from './AccountClosureNotification';
 import BalanceWidget from './BalanceWidget';
 import BoostWidget from './BoostWidget';
@@ -7,10 +7,13 @@ import CustomizeActions from './CustomizeActions';
 import MainWalletDetails from './MainWalletDetails';
 import TransactionManager from './TransactionManager';
 import TransactionsWidget from './TransactionsWidget';
+import ConfigExample from './ConfigExample';
+import { useFirstConfig } from '../hooks/useConfigService';
 
 const Dashboard = () => {
   const [selectedWallet, setSelectedWallet] = useState(null);
   const [showTransactionManager, setShowTransactionManager] = useState(false);
+  const { data: firstConfig, loading, error, fetchFirstConfig } = useFirstConfig();
 
   const handleWalletClick = (wallet) => {
     if (wallet.id === 'main') {
@@ -21,6 +24,16 @@ const Dashboard = () => {
   const handleBackToDashboard = () => {
     setSelectedWallet(null);
   };
+
+  // 当配置发生变化时，重新获取第一个配置
+  const handleConfigChange = () => {
+    fetchFirstConfig();
+  };
+
+  // 页面加载时获取第一个配置
+  useEffect(() => {
+    fetchFirstConfig();
+  }, [fetchFirstConfig]);
 
   return (
     <div style={{
@@ -46,7 +59,7 @@ const Dashboard = () => {
           paddingLeft: '0' // 确保与导航栏左对齐
         }}>
           <CustomizeActions />
-          <BalanceWidget onWalletClick={handleWalletClick} />
+          <BalanceWidget onWalletClick={handleWalletClick} firstConfig={firstConfig} />
           <BoostWidget />
           <CardsWidget />
         </div>
@@ -65,11 +78,12 @@ const Dashboard = () => {
             <MainWalletDetails
               wallet={selectedWallet}
               onBack={handleBackToDashboard}
+              firstConfig={firstConfig}
             />
           ) : (
             // 显示默认的右列内容
             <>
-              <AccountClosureNotification />
+              <AccountClosureNotification firstConfig={firstConfig}/>
               <TransactionsWidget />
             </>
           )}
@@ -110,6 +124,7 @@ const Dashboard = () => {
       <TransactionManager
         visible={showTransactionManager}
         onClose={() => setShowTransactionManager(false)}
+        onConfigChange={handleConfigChange}
       />
     </div>
   );

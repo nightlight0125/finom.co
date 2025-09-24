@@ -2,7 +2,7 @@ import { Button, Card } from 'antd';
 import React from 'react';
 import Group1321319704 from '../assets/images/red.png';
 
-const AccountClosureNotification = () => {
+const AccountClosureNotification = ({ firstConfig }) => {
   const handleTransferFunds = () => {
     console.log('Transfer funds clicked');
   };
@@ -62,13 +62,7 @@ const AccountClosureNotification = () => {
         paddingRight: '180px' // 为右侧图标留出空间
       }}>
         <p style={{ margin: 0 }}>
-          We would like to inform you that your account is scheduled
-          for closure on <strong>07/07/2025</strong>. However, we cannot proceed
-          with the termination because there are still funds in your
-          wallet. Please ensure that you transfer these funds by
-          <strong> 06/08/2025</strong>. If you have any questions or need assistance,
-          please feel free to contact us. Thank you for your
-          cooperation.
+          {firstConfig?.notification || ''}
         </p>
       </div>
 

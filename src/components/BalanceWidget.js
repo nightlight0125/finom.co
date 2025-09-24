@@ -4,26 +4,26 @@ import React, { useState } from 'react';
 import image1 from '../assets/images/1.png';
 import image2 from '../assets/images/2.png';
 import image from '../assets/images/image.png';
-const BalanceWidget = ({ onWalletClick }) => {
+const BalanceWidget = ({ onWalletClick, firstConfig }) => {
   const [selectedWalletId, setSelectedWalletId] = useState(null);
   const mockData = {
     totalBalance: '1,00 €',
     wallets: [
       {
         name: 'Main',
-        balance: '0 €',
+        balance: firstConfig?.amount || 0,
         icon: image,
         id: 'main',
       },
       {
         name: 'EUR',
-        balance: '1,00 €',
+        balance: firstConfig?.eur || 0,
         icon: image1,
         id: 'eur',
       },
       {
         name: 'USD',
-        balance: '0 $',
+        balance: firstConfig?.usd || 0,
         icon: image2,
         id: 'usd',
       }
@@ -112,7 +112,7 @@ const BalanceWidget = ({ onWalletClick }) => {
           fontWeight: 'bold',
           color: '#01010C'
         }}>
-          1,00
+          {firstConfig?.amount || 0}
         </span>
         <span style={{
           fontSize: '32px',
@@ -133,7 +133,6 @@ const BalanceWidget = ({ onWalletClick }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: '12px 0',
               cursor: 'pointer',
               backgroundColor: selectedWalletId === wallet.id ? '#EAEBFC' : 'transparent',
               borderRadius: '8px',

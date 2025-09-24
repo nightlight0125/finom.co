@@ -9,7 +9,7 @@ import WalletActionButtons from './WalletActionButtons';
 const { TabPane } = Tabs;
 const { Text, Title } = Typography;
 
-const MainWalletDetails = ({ onBack }) => {
+const MainWalletDetails = ({ onBack, firstConfig }) => {
   const [activeTab, setActiveTab] = useState('details');
   const [showReconciliationPopup, setShowReconciliationPopup] = useState(false);
   const [transactions, setTransactions] = useState([]);
@@ -138,7 +138,7 @@ const MainWalletDetails = ({ onBack }) => {
               fontSize: '16px',
               fontWeight: '600',
             }}>
-              FR76 3083 3830 0006 4789 3299 393 6
+              {firstConfig?.iban || ''}
             </Text>
             <Button
               type="text"
@@ -180,7 +180,7 @@ const MainWalletDetails = ({ onBack }) => {
               fontSize: '16px',
               fontWeight: '600',
             }}>
-              FNOMFRP2
+              {firstConfig?.bic || ''}
             </Text>
             <Button
               type="text"
@@ -217,7 +217,7 @@ const MainWalletDetails = ({ onBack }) => {
             fontWeight: '600',
             flex: 1
           }}>
-            IVANOVAJANA
+            {firstConfig?.recipient || ''}
           </Text>
         </div>
 
@@ -242,7 +242,7 @@ const MainWalletDetails = ({ onBack }) => {
             fontWeight: '600',
             flex: 1
           }}>
-            10 PLACE DE LA CONCORDE, PARIS, 75008, FRANCE
+            {firstConfig?.adresse || ''}
           </Text>
         </div>
 
@@ -267,7 +267,7 @@ const MainWalletDetails = ({ onBack }) => {
             fontWeight: '600',
             flex: 1
           }}>
-            FINOM PAYMENTS
+            {firstConfig?.bank || ''}
           </Text>
         </div>
       </div>
@@ -434,7 +434,6 @@ const MainWalletDetails = ({ onBack }) => {
         <Text style={{
           fontSize: '27px',
           fontWeight: '600',
-          lineHeight: '100%',
           color: '#02000A',
           height: '50px',
           lineHeight: '50px',
@@ -609,7 +608,7 @@ const MainWalletDetails = ({ onBack }) => {
             RETOURNER À LA SECTION ARGENT
           </Button>
           <Title level={2} style={{ margin: 0, color: '#01010C', fontSize: '48px', fontWeight: '600' }}>
-            Main • 0 €
+            Main • {firstConfig?.amount || 0} €
           </Title>
           <div style={{
             display: 'flex',
@@ -618,7 +617,7 @@ const MainWalletDetails = ({ onBack }) => {
             marginTop: '8px'
           }}>
             <Text style={{ color: '#666666' }}>
-              IBAN: FR76 3083 3830 0006 4789 3299 393
+              IBAN: {firstConfig?.iban || ''}
             </Text>
             <Button
               type="text"
