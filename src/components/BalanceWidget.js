@@ -17,13 +17,13 @@ const BalanceWidget = ({ onWalletClick, firstConfig }) => {
       },
       {
         name: 'EUR',
-        balance: firstConfig?.eur || 0,
+        balance: firstConfig?.eurAmount || 0,
         icon: image1,
         id: 'eur',
       },
       {
         name: 'USD',
-        balance: firstConfig?.usd || 0,
+        balance: firstConfig?.usdAmount || 0,
         icon: image2,
         id: 'usd',
       }

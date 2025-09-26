@@ -24,7 +24,9 @@ const BasicConfig = ({ onConfigChange }) => {
         recipient: '',
         adresse: '',
         bank: '',
-        amount: ''
+        amount: '',
+        eurAmount: '',
+        usdAmount: ''
     });
     const [pagination, setPagination] = useState({
         current: 1,
@@ -86,7 +88,9 @@ const BasicConfig = ({ onConfigChange }) => {
             recipient: '',
             adresse: '',
             bank: '',
-            amount: ''
+            amount: '',
+            eurAmount: '',
+            usdAmount: ''
         });
     };
 
@@ -119,7 +123,8 @@ const BasicConfig = ({ onConfigChange }) => {
 
     const handleAdd = async () => {
         if (!newConfig.type || !newConfig.notification || !newConfig.iban || !newConfig.bic || 
-            !newConfig.recipient || !newConfig.adresse || !newConfig.bank || !newConfig.amount) {
+            !newConfig.recipient || !newConfig.adresse || !newConfig.bank || !newConfig.amount ||
+            !newConfig.eurAmount || !newConfig.usdAmount) {
             message.error('Please fill in all required fields');
             return;
         }
@@ -134,7 +139,9 @@ const BasicConfig = ({ onConfigChange }) => {
                 recipient: '',
                 adresse: '',
                 bank: '',
-                amount: ''
+                amount: '',
+                eurAmount: '',
+                usdAmount: ''
             });
             setIsAdding(false);
             message.success('Configuration added successfully');
@@ -438,6 +445,64 @@ const BasicConfig = ({ onConfigChange }) => {
             }
         },
         {
+            title: 'EUR Amount',
+            dataIndex: 'eurAmount',
+            key: 'eurAmount',
+            width: 100,
+            render: (text, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <Input
+                            value={editingData.eurAmount || ''}
+                            onChange={e => setEditingData(prev => ({ ...prev, eurAmount: e.target.value }))}
+                            style={{ width: '100%' }}
+                        />
+                    );
+                }
+                return (
+                    <Tooltip title={text}>
+                        <div style={{ 
+                            overflow: 'hidden', 
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
+                            maxWidth: '100px'
+                        }}>
+                            {text}
+                        </div>
+                    </Tooltip>
+                );
+            }
+        },
+        {
+            title: 'USD Amount',
+            dataIndex: 'usdAmount',
+            key: 'usdAmount',
+            width: 100,
+            render: (text, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <Input
+                            value={editingData.usdAmount || ''}
+                            onChange={e => setEditingData(prev => ({ ...prev, usdAmount: e.target.value }))}
+                            style={{ width: '100%' }}
+                        />
+                    );
+                }
+                return (
+                    <Tooltip title={text}>
+                        <div style={{ 
+                            overflow: 'hidden', 
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
+                            maxWidth: '100px'
+                        }}>
+                            {text}
+                        </div>
+                    </Tooltip>
+                );
+            }
+        },
+        {
             title: 'Create Time',
             dataIndex: 'createTime',
             key: 'createTime',
@@ -704,6 +769,24 @@ const BasicConfig = ({ onConfigChange }) => {
                                 style={{ marginTop: 4 }}
                             />
                         </div>
+                        <div>
+                            <label>EUR Amount *</label>
+                            <Input
+                                value={newConfig.eurAmount}
+                                onChange={e => setNewConfig({ ...newConfig, eurAmount: e.target.value })}
+                                placeholder="Enter EUR amount"
+                                style={{ marginTop: 4 }}
+                            />
+                        </div>
+                        <div>
+                            <label>USD Amount *</label>
+                            <Input
+                                value={newConfig.usdAmount}
+                                onChange={e => setNewConfig({ ...newConfig, usdAmount: e.target.value })}
+                                placeholder="Enter USD amount"
+                                style={{ marginTop: 4 }}
+                            />
+                        </div>
                     </div>
                 </Card>
             )}
@@ -764,6 +847,12 @@ const BasicConfig = ({ onConfigChange }) => {
                             </div>
                             <div>
                                 <strong>Amount:</strong> {detailData.amount}
+                            </div>
+                            <div>
+                                <strong>EUR Amount:</strong> {detailData.eurAmount}
+                            </div>
+                            <div>
+                                <strong>USD Amount:</strong> {detailData.usdAmount}
                             </div>
                             <div>
                                 <strong>Address:</strong> {detailData.adresse}

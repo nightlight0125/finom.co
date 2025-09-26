@@ -25,6 +25,8 @@ const ConfigExample = () => {
             <p><strong>Type:</strong> {firstConfig.type}</p>
             <p><strong>Bank:</strong> {firstConfig.bank}</p>
             <p><strong>Amount:</strong> {firstConfig.amount}</p>
+            <p><strong>EUR Amount:</strong> {firstConfig.eurAmount}</p>
+            <p><strong>USD Amount:</strong> {firstConfig.usdAmount}</p>
             <button onClick={fetchFirstConfig}>Refresh First Config</button>
           </div>
         ) : (
@@ -43,7 +45,7 @@ const ConfigExample = () => {
             <ul>
               {configList.slice(0, 3).map((config, index) => (
                 <li key={config.id || index}>
-                  {config.type} - {config.bank} - {config.amount}
+                  {config.type} - {config.bank} - {config.amount} - EUR: {config.eurAmount} - USD: {config.usdAmount}
                 </li>
               ))}
             </ul>
